@@ -7,10 +7,12 @@ interface HomePageProps {
 
 const HomePage: React.FC<HomePageProps> = ({ title = 'Welcome' }) => {
   return (
-    <div className='page'>
-      <h1>{title}</h1>
-      <div className='content'>
-        <WeatherDisplay />
+    <div className='page-container'>
+      <div className='page-content'>
+        <h1>{title}</h1>
+        <div className='content'>
+          <WeatherDisplay />
+        </div>
       </div>
     </div>
   );
