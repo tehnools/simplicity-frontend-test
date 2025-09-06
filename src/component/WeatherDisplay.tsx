@@ -2,10 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useWeatherForecast } from '../hooks/useWeatherForcast';
 import { useDebounce } from '../hooks/useDebounce';
 
-const convertISOToDate = (isoString: string): Date => {
-  return new Date(isoString);
-};
-
 const WeatherDisplay: React.FC = () => {
   const { forecast, loading, error, setCoordinates } = useWeatherForecast();
   const [coords, setCoords] = useState({
@@ -14,6 +10,19 @@ const WeatherDisplay: React.FC = () => {
   });
 
   const debouncedCoords = useDebounce(coords, 1000); // 1 second delay
+
+  const formatDateTime = (isoString: string) => {
+    const date = new Date(isoString);
+    return date.toLocaleString('en-NZ', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZoneName: 'short',
+    });
+  };
 
   useEffect(() => {
     setCoordinates(debouncedCoords);
@@ -26,6 +35,7 @@ const WeatherDisplay: React.FC = () => {
       [name]: parseFloat(value) || 0,
     }));
   };
+
   if (loading) {
     return <div>Loading weather forecast...</div>;
   }
@@ -42,6 +52,19 @@ const WeatherDisplay: React.FC = () => {
   return (
     <div>
       <h2>Weather Forecast</h2>
+      <div className='weather-info'>
+        <div className='weather-info-box'>
+          <p>
+            Temperature: {forecast.current_weather.temperature}{' '}
+            {forecast.current_weather_units.temperature}
+          </p>
+          <p>
+            Wind Speed: {forecast.current_weather?.windspeed}{' '}
+            {forecast.current_units?.wind_speed_10m}
+          </p>
+          <p>Time: {formatDateTime(forecast.current_weather?.time)}</p>
+        </div>
+      </div>
       <form onSubmit={(e) => e.preventDefault()} className='coordinates-form'>
         <div>
           <label htmlFor='latitude'>Latitude: </label>
@@ -66,16 +89,6 @@ const WeatherDisplay: React.FC = () => {
           />
         </div>
       </form>
-      <div>
-        <p>
-          Temperature: {forecast.current_weather.temperature}{' '}
-          {forecast.current_weather_units.temperature}
-        </p>
-        <p>
-          Wind Speed: {forecast.current_weather?.windspeed} {forecast.current_units?.wind_speed_10m}
-        </p>
-        <p>Time: {forecast.current_weather?.time}</p>
-      </div>
     </div>
   );
 };

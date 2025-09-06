@@ -18,7 +18,13 @@ export const useWeatherForecast = () => {
       const client = new WeatherClient();
 
       try {
-        const [data, error] = await client.getForecast(coordinates.latitude, coordinates.longitude);
+        const [data, error] = await client.getForecast(
+          coordinates.latitude,
+          coordinates.longitude,
+          {
+            timezone: 'Pacific/Auckland',
+          }
+        );
 
         if (!isMounted) return;
 

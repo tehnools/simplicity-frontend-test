@@ -5,7 +5,7 @@ interface HomePageProps {
   title?: string;
 }
 
-const HomePage: React.FC<HomePageProps> = ({ title = 'Welcome' }) => {
+const HomePage: React.FC<HomePageProps> = ({ title = "Noel's Weather App" }) => {
   return (
     <div className='page-container'>
       <div className='page-content'>
