@@ -12,13 +12,18 @@ env:
   value: ${{ secrets.PA_TOKEN }}
 jobs:
   build:
+    permissions:
+      contents: read
+      packages: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version-file: '.nvmrc'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@tehnools'
       - name: Setup PNPM
         uses: pnpm/action-setup@v4
       - name: Install Dependencies
