@@ -26,6 +26,10 @@ jobs:
           scope: '@tehnools'
       - name: Setup PNPM
         uses: pnpm/action-setup@v4
+      - name: Setup .npmrc
+        run: |
+          echo "@tehnools:registry=https://npm.pkg.github.com" >> .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PA_TOKEN }}" >> .npmrc
       - name: Install Dependencies
         run: pnpm install
       - name: Lint
