@@ -1,4 +1,5 @@
 import React from 'react';
+import WeatherDisplay from '../component/WeatherDisplay';
 
 interface HomePageProps {
   title?: string;
@@ -9,7 +10,7 @@ const HomePage: React.FC<HomePageProps> = ({ title = 'Welcome' }) => {
     <div className='page'>
       <h1>{title}</h1>
       <div className='content'>
-        <p>This is the home page content.</p>
+        <WeatherDisplay />
       </div>
     </div>
   );
